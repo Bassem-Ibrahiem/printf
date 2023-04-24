@@ -10,7 +10,6 @@
 #define OUTPUT_BUF_SIZE 1024
 #define BUF_FLUSH -1
 
-#define FIELD_BUF_SIZE 50
 
 #define NULL_STRING "(null)"
 
@@ -117,4 +116,3 @@ char *get_precision(char *p, params_t *params, va_list ap);
 int _printf(const char *format, ...);
 
 #endif
-

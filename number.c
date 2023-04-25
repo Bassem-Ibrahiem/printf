@@ -2,82 +2,82 @@
 
 /**
  * convert - converter function, a clone of itoa
- * @n: number
- * @bs: base
- * @flg: argument flags
- * @para: paramater struct
+ * @num: number
+ * @base: base
+ * @flags: argument flags
+ * @params: paramater struct
  *
  * Return: string
  */
-char *convert(long int n, int bs, int flg, para_t *para)
+char *convert(long int num, int base, int flags, params_t *params)
 {
-	static char *arr;
-	static char buff[50];
-	char s = 0;
-	char *p;
-	unsigned long n = n;
-	(void)para;
+	static char *array;
+	static char buffer[50];
+	char sign = 0;
+	char *ptr;
+	unsigned long n = num;
+	(void)params;
 
-	if (!(flg & CONVERT_UNSIGNED) && n < 0)
+	if (!(flags & CONVERT_UNSIGNED) && num < 0)
 	{
-		n = -n;
-		s = '-';
+		n = -num;
+		sign = '-';
 
 	}
-	arr = flg & _LOWERCASE ? "0123456789abcdef" : "0123456789ABCDEF";
-	p = &buff[49];
-	*p = '\0';
+	array = flags & CONVERT_LOWERCASE ? "0123456789abcdef" : "0123456789ABCDEF";
+	ptr = &buffer[49];
+	*ptr = '\0';
 
 	do	{
-		*--p = arr[n % bs];
-		n /= bs;
+		*--ptr = array[n % base];
+		n /= base;
 	} while (n != 0);
 
-	if (s)
-		*--p = s;
-	return (p);
+	if (sign)
+		*--ptr = sign;
+	return (ptr);
 }
 
 /**
- * _unsed - prints unsed integer nbers
- * @ax: argument pointer
- * @para: the parameters struct
+ * print_unsigned - prints unsigned integer numbers
+ * @ap: argument pointer
+ * @params: the parameters struct
  *
  * Return: bytes printed
  */
-int _unsed(va_list ax, para_t *para)
+int print_unsigned(va_list ap, params_t *params)
 {
 	unsigned long l;
-uns
-	if (para->l_modifier)
-		l = (unsigned long)va_arg(ax, unsigned long);
-	else if (para->h_modifier)
-		l = (unsigned short int)va_arg(ax, unsigned int);
+
+	if (params->l_modifier)
+		l = (unsigned long)va_arg(ap, unsigned long);
+	else if (params->h_modifier)
+		l = (unsigned short int)va_arg(ap, unsigned int);
 	else
-		l = (unsigned int)va_arg(ax, unsigned int);
-	para->uns = 1;
-	return (_number(convert(l, 10, CONVERT_UNSIGNED, para), para));
+		l = (unsigned int)va_arg(ap, unsigned int);
+	params->unsign = 1;
+	return (print_number(convert(l, 10, CONVERT_UNSIGNED, params), params));
 }
 
 
 
 /**
- * _address - prints address
- * @ax: argument pointer
- * @para: the parameters struct
+ * print_address - prints address
+ * @ap: argument pointer
+ * @params: the parameters struct
  *
  * Return: bytes printed
  */
-int _address(va_list ax, para_t *para)
+int print_address(va_list ap, params_t *params)
 {
-	unsigned long int n = va_arg(ax, unsigned long int);
+	unsigned long int n = va_arg(ap, unsigned long int);
 	char *str;
 
 	if (!n)
 		return (_puts("(nil)"));
 
-	str = convert(n, 16, CONVERT_UNSIGNED | _LOWERCASE, para);
+	str = convert(n, 16, CONVERT_UNSIGNED | CONVERT_LOWERCASE, params);
 	*--str = 'x';
 	*--str = '0';
-	return (_number(str, para));
+	return (print_number(str, params));
 }

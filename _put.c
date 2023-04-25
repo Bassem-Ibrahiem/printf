@@ -8,31 +8,30 @@
  */
 int _puts(char *str)
 {
-	char *a = str;
+	char *s = str;
 
 	while (*str)
 		_putchar(*str++);
-	return (str - a);
+	return (str - s);
 }
 
 /**
- * _putchar - writes the character c to stdout
- * @c: The character to print
+ * _putchar - writes the
+ * @n: The character to print
  *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
+ * Return: 1 On success and -1 in error.
  */
-int _putchar(int c)
+int _putchar(int n)
 {
-	static int i;
-	static char buf[OUTPUT_BUF_SIZE];
+	static int a;
+	static char buf[BUF_SIZE];
 
-	if (c == BUF_FLUSH || i >= OUTPUT_BUF_SIZE)
+	if (n == BUF_FLUSH || a >= BUF_SIZE)
 	{
-		write(1, buf, i);
-		i = 0;
+		write(1, buf, a);
+		a = 0;
 	}
-	if (c != BUF_FLUSH)
-		buf[i++] = c;
+	if (n != BUF_FLUSH)
+		buf[a++] = n;
 	return (1);
 }

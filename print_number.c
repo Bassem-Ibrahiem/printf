@@ -1,130 +1,130 @@
 #include "main.h"
 
 /**
- * _isdigit - checks if character is digit
- * @c: the character to check
+ * _isdigit - checks if
+ * @n: the character is digit
  *
  * Return: 1 if digit, 0 otherwise
  */
-int _isdigit(int c)
+int _isdigit(int n)
 {
-	return (c >= '0' && c <= '9');
+	return (n >= '0' && n <= '9');
 }
 
 /**
- * _strlen - returns the length of a string
- * @s: the string whose length to check
+ * _strlen - returns the length of
+ * @s: the string
  *
  * Return: integer length of string
  */
 int _strlen(char *s)
 {
-	int i = 0;
+	int a = 0;
 
 	while (*s++)
-		i++;
-	return (i);
+		a++;
+	return (a);
 }
 
 /**
- * print_number - prints a number with options
+ * _number - prints a number with options
  * @str: the base number as a string
- * @params: the parameter struct
+ * @para: the parameter struct
  *
  * Return: chars printed
  */
-int print_number(char *str, params_t *params)
+int _number(char *str, para_t *para)
 {
-	unsigned int i = _strlen(str);
-	int neg = (!params->unsign && *str == '-');
+	unsigned int a = _strlen(str);
+	int ng = (!para->uns && *str == '-');
 
-	if (!params->precision && *str == '0' && !str[1])
+	if (!para->precision && *str == '0' && !str[1])
 		str = "";
-	if (neg)
+	if (ng)
 	{
 		str++;
-		i--;
+		a--;
 	}
-	if (params->precision != UINT_MAX)
-		while (i++ < params->precision)
+	if (para->precision != UINT_MAX)
+		while (a++ < para->precision)
 			*--str = '0';
-	if (neg)
+	if (ng)
 		*--str = '-';
 
-	if (!params->minus_flag)
-		return (print_number_right_shift(str, params));
+	if (!para->minus)
+		return (r_shift_n(str, para));
 	else
-		return (print_number_left_shift(str, params));
+		return (l_shift_n(str, para));
 }
 
 /**
- * print_number_right_shift - prints a number with options
+ * r_shift_n - prints a number with options
  * @str: the base number as a string
- * @params: the parameter struct
+ * @para: the parameter struct
  *
  * Return: chars printed
  */
-int print_number_right_shift(char *str, params_t *params)
+int r_shift_n(char *str, para_t *para)
 {
-	unsigned int n = 0, neg, neg2, i = _strlen(str);
+	unsigned int n = 0, ng, ng2, a = _strlen(str);
 	char pad_char = ' ';
 
-	if (params->zero_flag && !params->minus_flag)
+	if (para->zero && !para->minus)
 		pad_char = '0';
-	neg = neg2 = (!params->unsign && *str == '-');
-	if (neg && i < params->width && pad_char == '0' && !params->minus_flag)
+	ng = ng2 = (!para->uns && *str == '-');
+	if (ng && a < para->width && pad_char == '0' && !para->minus)
 		str++;
 	else
-		neg = 0;
-	if ((params->plus_flag && !neg2) ||
-		(!params->plus_flag && params->space_flag && !neg2))
-		i++;
-	if (neg && pad_char == '0')
+		ng = 0;
+	if ((para->plus && !ng2) ||
+		(!para->plus && para->space && !ng2))
+		a++;
+	if (ng && pad_char == '0')
 		n += _putchar('-');
-	if (params->plus_flag && !neg2 && pad_char == '0' && !params->unsign)
+	if (para->plus && !ng2 && pad_char == '0' && !para->uns)
 		n += _putchar('+');
-	else if (!params->plus_flag && params->space_flag && !neg2 &&
-		!params->unsign && params->zero_flag)
+	else if (!para->plus && para->space && !ng2 &&
+		!para->uns && para->zero)
 		n += _putchar(' ');
-	while (i++ < params->width)
+	while (a++ < para->width)
 		n += _putchar(pad_char);
-	if (neg && pad_char == ' ')
+	if (ng && pad_char == ' ')
 		n += _putchar('-');
-	if (params->plus_flag && !neg2 && pad_char == ' ' && !params->unsign)
+	if (para->plus && !ng2 && pad_char == ' ' && !para->uns)
 		n += _putchar('+');
-	else if (!params->plus_flag && params->space_flag && !neg2 &&
-		!params->unsign && !params->zero_flag)
+	else if (!para->plus && para->space && !ng2 &&
+		!para->uns && !para->zero)
 		n += _putchar(' ');
 	n += _puts(str);
 	return (n);
 }
 
 /**
- * print_number_left_shift - prints a number with options
+ * l_shift_n - prints a number with options
  * @str: the base number as a string
- * @params: the parameter struct
+ * @para: the parameter struct
  *
  * Return: chars printed
  */
-int print_number_left_shift(char *str, params_t *params)
+int l_shift_n(char *str, para_t *para)
 {
-	unsigned int n = 0, neg, neg2, i = _strlen(str);
+	unsigned int n = 0, ng, ng2, a = _strlen(str);
 	char pad_char = ' ';
 
-	if (params->zero_flag && !params->minus_flag)
+	if (para->zero && !para->minus)
 		pad_char = '0';
-	neg = neg2 = (!params->unsign && *str == '-');
-	if (neg && i < params->width && pad_char == '0' && !params->minus_flag)
+	ng = ng2 = (!para->uns && *str == '-');
+	if (ng && a < para->width && pad_char == '0' && !para->minus)
 		str++;
 	else
-		neg = 0;
+		ng = 0;
 
-	if (params->plus_flag && !neg2 && !params->unsign)
-		n += _putchar('+'), i++;
-	else if (params->space_flag && !neg2 && !params->unsign)
-		n += _putchar(' '), i++;
+	if (para->plus && !ng2 && !para->uns)
+		n += _putchar('+'), a++;
+	else if (para->space && !ng2 && !para->uns)
+		n += _putchar(' '), a++;
 	n += _puts(str);
-	while (i++ < params->width)
+	while (a++ < para->width)
 		n += _putchar(pad_char);
 	return (n);
 }

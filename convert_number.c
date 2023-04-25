@@ -1,106 +1,106 @@
 #include "main.h"
 
 /**
- * print_hex - prints unsigned hex numbers in lowercase
- * @ap: the argument pointer
- * @params: the parameters struct
+ * _hex - prints unsigned hex numbers in lowercase
+ * @ax: the argument pointer
+ * @para: the parameters struct
  *
  * Return: bytes printed
  */
-int print_hex(va_list ap, params_t *params)
+int _hex(va_list ax, para_t *para)
 {
 	unsigned long l;
 	int c = 0;
 	char *str;
 
-	if (params->l_modifier)
-		l = (unsigned long)va_arg(ap, unsigned long);
-	else if (params->h_modifier)
-		l = (unsigned short int)va_arg(ap, unsigned int);
+	if (para->l_modifier)
+		l = (unsigned long)va_arg(ax, unsigned long);
+	else if (para->h_modifier)
+		l = (unsigned short int)va_arg(ax, unsigned int);
 	else
-		l = (unsigned int)va_arg(ap, unsigned int);
+		l = (unsigned int)va_arg(ax, unsigned int);
 
-	str = convert(l, 16, CONVERT_UNSIGNED | CONVERT_LOWERCASE, params);
-	if (params->hashtag_flag && l)
+	str = convert(l, 16, CONVERT_UNSIGNED | _LOWERCASE, para);
+	if (para->hashtag && l)
 	{
 		*--str = 'x';
 		*--str = '0';
 	}
-	params->unsign = 1;
-	return (c += print_number(str, params));
+	para->uns = 1;
+	return (c += _number(str, para));
 }
 
 /**
- * print_HEX - prints unsigned hex numbers in uppercase
- * @ap: the argument pointer
- * @params: the parameters struct
+ * _HEX - prints unsigned hex numbers in uppercase
+ * @ax: the argument pointer
+ * @para: the parameters struct
  *
  * Return: bytes printed
  */
-int print_HEX(va_list ap, params_t *params)
+int _HEX(va_list ax, para_t *para)
 {
 	unsigned long l;
 	int c = 0;
 	char *str;
 
-	if (params->l_modifier)
-		l = (unsigned long)va_arg(ap, unsigned long);
-	else if (params->h_modifier)
-		l = (unsigned short int)va_arg(ap, unsigned int);
+	if (para->l_modifier)
+		l = (unsigned long)va_arg(ax, unsigned long);
+	else if (para->h_modifier)
+		l = (unsigned short int)va_arg(ax, unsigned int);
 	else
-		l = (unsigned int)va_arg(ap, unsigned int);
+		l = (unsigned int)va_arg(ax, unsigned int);
 
-	str = convert(l, 16, CONVERT_UNSIGNED, params);
-	if (params->hashtag_flag && l)
+	str = convert(l, 16, CONVERT_UNSIGNED, para);
+	if (para->hashtag && l)
 	{
 		*--str = 'X';
 		*--str = '0';
 	}
-	params->unsign = 1;
-	return (c += print_number(str, params));
+	para->uns = 1;
+	return (c += _number(str, para));
 }
 /**
- * print_binary - prints unsigned binary number
- * @ap: the argument pointer
- * @params: the parameters struct
+ * _binary - prints unsigned binary number
+ * @ax: the argument pointer
+ * @para: the parameters struct
  *
  * Return: bytes printed
  */
-int print_binary(va_list ap, params_t *params)
+int _binary(va_list ax, para_t *para)
 {
-	unsigned int n = va_arg(ap, unsigned int);
-	char *str = convert(n, 2, CONVERT_UNSIGNED, params);
+	unsigned int n = va_arg(ax, unsigned int);
+	char *str = convert(n, 2, CONVERT_UNSIGNED, para);
 	int c = 0;
 
-	if (params->hashtag_flag && n)
+	if (para->hashtag && n)
 		*--str = '0';
-	params->unsign = 1;
-	return (c += print_number(str, params));
+	para->uns = 1;
+	return (c += _number(str, para));
 }
 
 /**
- * print_octal - prints unsigned octal numbers
- * @ap: the argument pointer
- * @params: the parameters struct
+ * _octal - prints unsigned octal numbers
+ * @ax: the argument pointer
+ * @para: the parameters struct
  *
  * Return: bytes printed
  */
-int print_octal(va_list ap, params_t *params)
+int _octal(va_list ax, para_t *para)
 {
 	unsigned long l;
 	char *str;
 	int c = 0;
 
-	if (params->l_modifier)
-		l = (unsigned long)va_arg(ap, unsigned long);
-	else if (params->h_modifier)
-		l = (unsigned short int)va_arg(ap, unsigned int);
+	if (para->l_modifier)
+		l = (unsigned long)va_arg(ax, unsigned long);
+	else if (para->h_modifier)
+		l = (unsigned short int)va_arg(ax, unsigned int);
 	else
-		l = (unsigned int)va_arg(ap, unsigned int);
-	str = convert(l, 8, CONVERT_UNSIGNED, params);
+		l = (unsigned int)va_arg(ax, unsigned int);
+	str = convert(l, 8, CONVERT_UNSIGNED, para);
 
-	if (params->hashtag_flag && l)
+	if (para->hashtag && l)
 		*--str = '0';
-	params->unsign = 1;
-	return (c += print_number(str, params));
+	para->uns = 1;
+	return (c += _number(str, para));
 }
